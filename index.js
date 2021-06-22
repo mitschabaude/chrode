@@ -2,6 +2,9 @@ const puppeteer = require('puppeteer');
 const esbuild = require('esbuild');
 const fs = require('fs');
 const http = require('http');
+const nodeStatic = require('node-static');
+
+const fileServer = new nodeStatic.Server('.');
 
 module.exports = run;
 
@@ -23,11 +26,15 @@ async function run(
     format: 'esm',
   });
 
-  // run dummy server
-  let server = http
+  // run dummy/file server
+  http
     .createServer((req, res) => {
-      res.writeHead(200);
-      res.end(dummyHtml);
+      if (req.url === '/') {
+        res.writeHead(200);
+        res.end(dummyHtml);
+      } else {
+        fileServer.serve(req, res);
+      }
     })
     .listen(port);
 
@@ -61,9 +68,6 @@ async function run(
     if (!noParallel) await promise;
   }
   await Promise.all(promises);
-
-  // stop dummy server
-  server.close();
 }
 
 const dummyHtml = `<html>
