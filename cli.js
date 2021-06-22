@@ -25,6 +25,12 @@ const cliOptions = [
     description: 'The number of executions.',
   },
   {
+    name: 'no-logs',
+    type: Boolean,
+    defaultValue: false,
+    description: 'Do not forward console logs to stdout.',
+  },
+  {
     name: 'no-incognito',
     type: Boolean,
     defaultValue: false,
@@ -48,6 +54,7 @@ let {
   input,
   number: n,
   help,
+  'no-logs': noLogs,
   'no-incognito': noIncognito,
   'no-parallel': noParallel,
   'no-headless': noHeadless,
@@ -72,4 +79,4 @@ if (help || input === undefined) {
   process.exit(1);
 }
 
-run(input, n, {noIncognito, noParallel, noHeadless});
+run(input, n, {noLogs, noIncognito, noParallel, noHeadless});

@@ -8,7 +8,7 @@ module.exports = run;
 async function run(
   path,
   n,
-  {noHeadless = false, noIncognito = false, noParallel = false}
+  {noLogs = false, noHeadless = false, noIncognito = false, noParallel = false}
 ) {
   const port = 8374;
 
@@ -33,10 +33,14 @@ async function run(
 
   async function handleContext(context, i) {
     let page = await context.newPage();
-    page.on(
-      'console',
-      n > 1 ? msg => console.log(i, msg.text()) : msg => console.log(msg.text())
-    );
+    if (!noLogs) {
+      page.on(
+        'console',
+        n > 1
+          ? msg => console.log(i, msg.text())
+          : msg => console.log(msg.text())
+      );
+    }
 
     await page.goto(`http://localhost:${port}`);
     await page.addScriptTag({

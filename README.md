@@ -20,6 +20,7 @@ chrode script.js [-n 5]
 ```
   -n, --number number   The number of parallel executions (default: 1).
   -h, --help            Print this information.
+  --no-logs             Do not forward console logs to stdout.
   --no-incognito        Do not use an incognito browser context.
   --no-parallel         Do not load scripts in parallel.
   --no-headless         Open the browser UI that runs your scripts.
