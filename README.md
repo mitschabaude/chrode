@@ -28,7 +28,7 @@ chrode script.js [-n 5]
 ## As a module
 
 ```js
-import chrode from 'chrode`
+import chrode from 'chrode';
 
 chrode('./script.js');
 
@@ -39,7 +39,7 @@ chrode('./script.js', 5);
 chrode('./script.js', 1, {
   noIncognito: true,
   noParallel: true,
-  noHeadless: true
+  noHeadless: true,
 });
 ```
 
