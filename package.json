@@ -1,0 +1,19 @@
+{
+  "name": "chrode",
+  "version": "0.1.0",
+  "main": "index.js",
+  "bin": {
+    "chrode": "./cli.js"
+  },
+  "author": "Gregor <gregor.mitscha-baude@gmx.at>",
+  "license": "MIT",
+  "dependencies": {
+    "command-line-args": "^5.1.1",
+    "command-line-usage": "^6.1.1",
+    "esbuild": "^0.12.9",
+    "puppeteer": "^10.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.29.0"
+  }
+}
