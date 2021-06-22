@@ -13,7 +13,7 @@ async function run(
   n,
   {noLogs = false, noHeadless = false, noIncognito = false, noParallel = false}
 ) {
-  const port = 8374;
+  const port = 8100 + Math.floor(900 * Math.random());
 
   // build JS
   if (!fs.existsSync('/tmp/esbuild'))
