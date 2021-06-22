@@ -1,5 +1,6 @@
 {
   "name": "chrode",
+  "description": "Run JavaScript in Chrome, from the command line.",
   "version": "0.1.0",
   "main": "index.js",
   "bin": {
