@@ -6,6 +6,7 @@
     "chrode": "./cli.js"
   },
   "author": "Gregor <gregor.mitscha-baude@gmx.at>",
+  "homepage": "https://github.com/mitschabaude/chrode",
   "license": "MIT",
   "dependencies": {
     "command-line-args": "^5.1.1",

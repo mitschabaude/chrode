@@ -8,7 +8,7 @@ module.exports = run;
 async function run(
   path,
   n,
-  {headless = true, incognito = true, parallel = true}
+  {noHeadless = false, noIncognito = false, noParallel = false}
 ) {
   const port = 8374;
 
@@ -45,8 +45,8 @@ async function run(
     });
   }
 
-  let browser = await puppeteer.launch({headless});
-  let newContext = incognito
+  let browser = await puppeteer.launch({headless: !noHeadless});
+  let newContext = !noIncognito
     ? () => browser.createIncognitoBrowserContext()
     : () => browser.defaultBrowserContext();
   let contexts = await Promise.all(Array(n).fill(0).map(newContext));
@@ -54,7 +54,7 @@ async function run(
   for (let i = 0; i < n; i++) {
     let promise = handleContext(contexts[i], i);
     promises.push(promise);
-    if (!parallel) await promise;
+    if (!noParallel) await promise;
   }
   await Promise.all(promises);
 

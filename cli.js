@@ -72,8 +72,4 @@ if (help || input === undefined) {
   process.exit(1);
 }
 
-run(input, n, {
-  incognito: !noIncognito,
-  parallel: !noParallel,
-  headless: !noHeadless,
-});
+run(input, n, {noIncognito, noParallel, noHeadless});
