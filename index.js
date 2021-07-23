@@ -34,6 +34,7 @@ async function run(
     outfile: bundlePath,
     target: 'es2020',
     format: 'esm',
+    loader: {'.wasm': 'base64'},
     watch: watch
       ? {
           onRebuild(error) {
