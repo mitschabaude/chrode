@@ -1,7 +1,7 @@
 {
   "name": "chrode",
   "description": "Run JavaScript in Chrome, from the command line.",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "main": "run.js",
   "bin": {
     "chrode": "./cli.js",
@@ -16,7 +16,7 @@
     "command-line-usage": "^6.1.1",
     "esbuild": "^0.12.9",
     "node-static": "^0.7.11",
-    "puppeteer": "^10.0.0"
+    "puppeteer": "^10.1.0"
   },
   "devDependencies": {
     "eslint": "^7.29.0"
