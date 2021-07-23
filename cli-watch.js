@@ -18,13 +18,6 @@ const cliOptions = [
     description: 'Print this information.',
   },
   {
-    name: 'watch',
-    alias: 'w',
-    type: Boolean,
-    defaultOption: false,
-    description: 'Re-execute on file changes',
-  },
-  {
     name: 'silent',
     alias: 's',
     type: Boolean,
@@ -56,7 +49,6 @@ const cliOptions = [
 let {
   input,
   help,
-  watch,
   incognito,
   silent,
   verbose,
@@ -71,7 +63,7 @@ if (help || input === undefined) {
       },
       {
         header: 'Usage',
-        content: ['chrode {underline script.js} [--watch]'],
+        content: ['chrodemon {underline script.js}'],
       },
       {
         header: 'Options',
@@ -82,4 +74,4 @@ if (help || input === undefined) {
   process.exit(1);
 }
 
-run(input, {incognito, watch, silent, verbose, noHeadless});
+run(input, {incognito, watch: true, silent, verbose, noHeadless});
