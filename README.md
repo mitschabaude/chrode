@@ -12,18 +12,18 @@ npm i -g chrode # install globally
 ## CLI
 
 ```sh
-chrode script.js [-n 5]
+chrode script.js
+chrodemon script.js # same as `chrode script.js --watch`
 ```
 
 ### Options
 
 ```
-  -n, --number number   The number of parallel executions (default: 1).
   -h, --help            Print this information.
+  -w, --watch           Re-execute on file changes (same as the chrodemon command)
+  --incognito           Use an incognito browser context.
   --no-logs             Do not forward console logs to stdout.
-  --no-incognito        Do not use an incognito browser context.
-  --no-parallel         Do not load scripts in parallel.
-  --no-headless         Open the browser UI that runs your scripts.
+  --no-headless         Open the Chrome browser UI that runs your scripts.
 ```
 
 ## As a module
@@ -33,22 +33,21 @@ import chrode from 'chrode';
 
 chrode('./script.js');
 
-// multiple parallel executions
-chrode('./script.js', 5);
-
 // with advanced options (same meaning as above)
-chrode('./script.js', 1, {
-  noIncognito: true,
-  noParallel: true,
-  noHeadless: true,
+chrode('./script.js', {
+  watch: true,
+  incognito: true,
+  noLogs: true,
+  noHeadless: false,
 });
 ```
 
 ## How does it work?
 
 - We bundle your script using `esbuild`
-- We start a browser context with `puppeteer` which loads a dummy html page and adds the bundled script.
-- We forward `console` calls in the browser to your console (with puppeteer).
+- We start a browser context with `puppeteer` which loads a dummy html page including the bundled script.
+- We forward `console` calls and errors in the browser to your console (with puppeteer).
+- For `chrodemon`, we run `esbuild` in watch mode and reload the page on changes
 
 ## What does it mean?
 

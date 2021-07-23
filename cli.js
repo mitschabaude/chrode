@@ -18,29 +18,32 @@ const cliOptions = [
     description: 'Print this information.',
   },
   {
-    name: 'number',
-    alias: 'n',
-    type: Number,
-    defaultValue: 1,
-    description: 'The number of executions.',
+    name: 'watch',
+    alias: 'w',
+    type: Boolean,
+    defaultOption: false,
+    description: 'Re-execute on file changes',
   },
   {
-    name: 'no-logs',
+    name: 'silent',
+    alias: 's',
     type: Boolean,
     defaultValue: false,
-    description: 'Do not forward console logs to stdout.',
+    description: 'Do not forward any console logs to stdout.',
   },
   {
-    name: 'no-incognito',
+    name: 'verbose',
+    alias: 'v',
     type: Boolean,
     defaultValue: false,
-    description: 'Do not use an incognito browser context.',
+    description:
+      'Forward additional console events to stdout, like fetch results.',
   },
   {
-    name: 'no-parallel',
+    name: 'incognito',
     type: Boolean,
     defaultValue: false,
-    description: 'Do not load scripts in parallel.',
+    description: 'Use an incognito browser context.',
   },
   {
     name: 'no-headless',
@@ -52,11 +55,11 @@ const cliOptions = [
 
 let {
   input,
-  number: n,
   help,
-  'no-logs': noLogs,
-  'no-incognito': noIncognito,
-  'no-parallel': noParallel,
+  watch,
+  incognito,
+  silent,
+  verbose,
   'no-headless': noHeadless,
 } = commandLineArgs(cliOptions);
 if (help || input === undefined) {
@@ -68,7 +71,10 @@ if (help || input === undefined) {
       },
       {
         header: 'Usage',
-        content: ['chrode {underline script.js} [{bold -n} {underline 2}]'],
+        content: [
+          'chrode {underline script.js} [--watch]',
+          'chrodemon {underline script.js}',
+        ],
       },
       {
         header: 'Options',
@@ -79,4 +85,4 @@ if (help || input === undefined) {
   process.exit(1);
 }
 
-run(input, n, {noLogs, noIncognito, noParallel, noHeadless});
+run(input, {incognito, watch, silent, verbose, noHeadless});
