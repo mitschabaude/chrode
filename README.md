@@ -2,12 +2,18 @@
 
 _Run JavaScript in Chrome, from the command line._
 
-DISCLAIMER: This is far from production-ready, it's a quick one-off that I thought would be useful for me, so I made a package out of it.
+DISCLAIMER: This is far from production-ready, it's a quick one-off that is useful for me, so I made a package out of it.
 
 ```sh
 npm i chrode # install locally
 npm i -g chrode # install globally
 ```
+
+This uses `esbuild` to quickly bundle your code before executing in Chrome with puppeteer. Some nice benefits:
+
+* Resolving ESM / require imports from `node_modules` just works
+* Automatically handles TypeScript and JSX
+* Can be used in re-executing watch mode like `nodemon`
 
 ## CLI
 
@@ -20,9 +26,9 @@ chrodemon script.js # same as `chrode script.js --watch`
 
 ```
   -h, --help            Print this information.
-  -w, --watch           Re-execute on file changes (same as the chrodemon command)
-  --incognito           Use an incognito browser context.
-  --no-logs             Do not forward console logs to stdout.
+  -w, --watch           Re-execute on file changes
+  -s, --silent          Do not forward console logs to stdout.
+  --incognito           Run in an incognito browser context.
   --no-headless         Open the Chrome browser UI that runs your scripts.
 ```
 
@@ -36,8 +42,8 @@ chrode('./script.js');
 // with advanced options (same meaning as above)
 chrode('./script.js', {
   watch: true,
+  silent: true,
   incognito: true,
-  noLogs: true,
   noHeadless: false,
 });
 ```
