@@ -5,6 +5,7 @@ const path = require('path');
 const http = require('http');
 const nodeStatic = require('node-static');
 const chalk = require('chalk');
+const watPlugin = require('./esbuild-plugin-wat');
 
 const fileServer = new nodeStatic.Server('.');
 
@@ -34,7 +35,8 @@ async function run(
     outfile: bundlePath,
     target: 'es2020',
     format: 'esm',
-    loader: {'.wasm': 'base64'},
+    plugins: [watPlugin()],
+    // loader: {'.wasm': 'base64'},
     watch: watch
       ? {
           onRebuild(error) {
