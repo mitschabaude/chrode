@@ -7,7 +7,7 @@ const findCacheDir = require('find-cache-dir');
 
 module.exports = watPlugin;
 
-let cacheDir = findCacheDir({name: 'eslint-plugin-wat', create: true});
+let cacheDir = findCacheDir({name: 'chrode', create: true});
 
 function watPlugin() {
   return {
