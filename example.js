@@ -1,3 +1,4 @@
+// execute this script on the command line with `./cli.js example.js`
 console.log('hello world!');
 
 fetch('./README.md')
