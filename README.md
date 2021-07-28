@@ -52,7 +52,7 @@ chrode('./script.js', {
 
 ## WebAssembly
 
-Special handling of `.wasm` and `.wat` imports was added to simplify development of browser libraries that use WebAssembly. Both kinds of imports resolve with an object `{id, base64}`, where `base64` is the base64-encoded WebAssembly bytecode and `id` is a short string id. `.wat` is converted to `.wasm` behind the scenes. The id can be useful for managing multiple Wasm modules.
+Special handling of `.wasm` and `.wat` imports was added to simplify development of browser libraries that use WebAssembly. Both kinds of imports resolve with a string which holds the base64-encoded WebAssembly bytecode. `.wat` is converted to `.wasm` behind the scenes.
 
 ## Assets
 

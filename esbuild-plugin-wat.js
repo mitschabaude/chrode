@@ -15,32 +15,27 @@ function watPlugin() {
     setup(build) {
       build.onLoad({filter: /.wat$/}, async ({path: watPath}) => {
         let watBytes = await fs.promises.readFile(watPath);
-        let {result, hash} = await fromCache(
-          watPath,
-          watBytes,
-          async watBytes => {
-            let watText = new TextDecoder().decode(watBytes);
-            let wabtModule = (await wabt()).parseWat(watPath, watText, {
-              simd: true,
-            });
-            let bytes = new Uint8Array(wabtModule.toBinary({}).buffer);
-            return bytes;
-          }
-        );
+        let {result} = await fromCache(watPath, watBytes, async watBytes => {
+          let watText = new TextDecoder().decode(watBytes);
+          let wabtModule = (await wabt()).parseWat(watPath, watText, {
+            simd: true,
+          });
+          let bytes = new Uint8Array(wabtModule.toBinary({}).buffer);
+          return bytes;
+        });
         let base64 = Buffer.from(result).toString('base64');
         return {
-          contents: JSON.stringify({id: hash, base64}),
-          loader: 'json',
+          contents: `export default "${base64}";`,
+          loader: 'js',
         };
       });
 
       build.onLoad({filter: /.wasm$/}, async ({path: wasmPath}) => {
         let bytes = await fs.promises.readFile(wasmPath);
-        let id = hash(bytes);
         let base64 = Buffer.from(bytes).toString('base64');
         return {
-          contents: JSON.stringify({id, base64}),
-          loader: 'json',
+          contents: `export default "${base64}";`,
+          loader: 'js',
         };
       });
     },
