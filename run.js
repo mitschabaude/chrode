@@ -26,8 +26,11 @@ async function run(
   // build JS
   if (!fs.existsSync('/tmp/esbuild'))
     fs.mkdirSync('/tmp/esbuild', {recursive: true});
-  const scriptName = path.basename(scriptPath);
-  const bundlePath = '/tmp/esbuild/' + scriptName;
+  let scriptNameParts = path.basename(scriptPath).split('.');
+  scriptNameParts.pop();
+  scriptNameParts.push('.js');
+  let scriptName = scriptNameParts.join('');
+  let bundlePath = '/tmp/esbuild/' + scriptName;
 
   await esbuild.build({
     bundle: true,
@@ -67,7 +70,7 @@ async function run(
         res.statusCode = 200;
         res.setHeader('content-type', 'text/html');
         res.end(getHtml(scriptName));
-      } else if (req.url.indexOf('.js') !== -1) {
+      } else if (req.url === `/${scriptName}`) {
         res.statusCode = 200;
         res.setHeader('content-type', 'text/javascript');
         res.end(scriptSource);
