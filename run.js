@@ -69,6 +69,8 @@ async function run(
       if (req.url === '/') {
         res.statusCode = 200;
         res.setHeader('content-type', 'text/html');
+        res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+        res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
         res.end(getHtml(scriptName));
       } else if (req.url === `/${scriptName}`) {
         res.statusCode = 200;
