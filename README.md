@@ -36,7 +36,7 @@ chrodemon script.js # same as `chrode script.js --watch`
   --no-headless         Open the Chrome browser UI that runs your scripts.
 ```
 
-## Build only
+### Build only
 
 If you only want the browser bundle produced by `chrode` without running it, you can use the `chrode-build` CLI:
 
@@ -65,8 +65,7 @@ run('./script.js', {
 });
 
 // build only
-// the second parameter is an object that directly overrides our input to esbuild.build(...),
-// with the added convenience of returning the build output
+// the second parameter is an object that directly overrides our input to esbuild.build(...)
 let script = await build('./script.js', {minify: true});
 ```
 
