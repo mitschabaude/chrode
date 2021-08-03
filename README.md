@@ -77,7 +77,7 @@ You can simply import `.wasm` and `.wat` files directly. Both will resolve with 
 import wasmBase64 from './example.wasm';
 
 // base64-decode
-let wasmStr = atob(wasm64);
+let wasmStr = atob(wasmBase64);
 let wasmBytes = new Uint8Array([...wasmStr].map((_, i) => wasmStr.charCodeAt(i)));
 
 // instantiate
