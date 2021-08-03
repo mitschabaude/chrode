@@ -17,7 +17,7 @@ Chrode uses `esbuild` to bundle your code before executing it in headless Chrome
 * Automatically handles TypeScript and JSX
 * Can be used in re-executing watch mode like `nodemon`
 
-We also add some custom esbuild plugins to make it easy to run performance-oriented scripts which use [WebAssembly](#webassembly) and [Web Workers](#web-workers).
+We also add some custom `esbuild` plugins to make it easy to run performance-oriented scripts which use [WebAssembly](#webassembly) and [Web Workers](#web-workers).
 
 ## CLI
 
@@ -38,7 +38,7 @@ chrodemon script.js # same as `chrode script.js --watch`
 
 ### Build only
 
-If you only want the browser bundle produced by `chrode` without running it, you can use the `chrode-build` CLI:
+If you only want the bundle produced by Chrode without running it, you can use the `chrode-build` CLI:
 
 ```sh
 chrode-build script.js
@@ -86,7 +86,7 @@ let wasmInstance = await WebAssembly.instantiate(wasmBytes);
 
 ## Web Workers
 
-Files with a `.worker.js` extension will be resolved by inlining the worker code and exporting a constructor for the worker, without URL. This makes it a bit more convenient to play around with multithreaded JavaScript, especially if you want to bundle your code as a library.
+Files with a `.worker.js` extension will be resolved by inlining the worker code and exporting a constructor for the worker, without URL. This makes it more convenient to play around with multi-threaded JavaScript, especially if you want to bundle your code as a library.
 
 ```js
 // script.worker.js
@@ -109,8 +109,8 @@ Your scripts can access files on your hard-drive via `fetch`. The path is resolv
 
 ```js
 let res = await fetch('./package.json')
-let package = await res.json();
-console.log(package.name);
+let packageJson = await res.json();
+console.log(packageJson.name);
 ```
 
 When executed with Chrode, this prints the name in your `package.json`.
