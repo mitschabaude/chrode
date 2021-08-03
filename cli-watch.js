@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const commandLineArgs = require('command-line-args');
 const commandLineUsage = require('command-line-usage');
-const run = require('./run.js');
+const {run} = require('./index.js');
 
 const cliOptions = [
   {

@@ -5,11 +5,13 @@ const path = require('path');
 const http = require('http');
 const nodeStatic = require('node-static');
 const chalk = require('chalk');
+const buildCommon = require('./build-common.js');
 const watPlugin = require('./esbuild-plugin-wat');
+const inlineWorkerPlugin = require('./esbuild-plugin-inline-worker');
 
 const fileServer = new nodeStatic.Server('.');
 
-module.exports = run;
+module.exports = {run, build};
 
 async function run(
   scriptPath,
@@ -36,10 +38,9 @@ async function run(
     bundle: true,
     entryPoints: [scriptPath],
     outfile: bundlePath,
-    target: 'es2020',
+    target: 'esnext',
     format: 'esm',
-    plugins: [watPlugin()],
-    // loader: {'.wasm': 'base64'},
+    plugins: [inlineWorkerPlugin({plugins: [watPlugin()]}), watPlugin()],
     watch: watch
       ? {
           onRebuild(error) {
@@ -118,4 +119,11 @@ function getHtml(scriptName = 'index.js') {
   </body>
 </html>
 `;
+}
+
+function build(scriptPath, extraConfig) {
+  return buildCommon(scriptPath, {
+    plugins: [inlineWorkerPlugin({plugins: [watPlugin()]}), watPlugin()],
+    ...extraConfig,
+  });
 }

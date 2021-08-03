@@ -1,8 +1,14 @@
 // execute this script on the command line with `./cli.js example.js`
+import Worker from './example.worker.js';
 console.log('hello world!');
 
-fetch('./README.md')
-  .then(res => res.text())
-  .then(readme => console.log('// README.md\n', readme.slice(0, 200) + '...'));
+let worker = new Worker();
+worker.onmessage = ({data}) => console.log(data);
 
+// top-level await actually works
+let res = await fetch('./package.json');
+let packageJson = await res.json();
+console.log('Your package name:', packageJson.name);
+
+// intentional error
 undefined.wtf;

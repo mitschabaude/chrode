@@ -1,11 +1,12 @@
 {
   "name": "chrode",
   "description": "Run JavaScript in Chrome, from the command line.",
-  "version": "0.2.6",
-  "main": "run.js",
+  "version": "0.2.7",
+  "main": "index.js",
   "bin": {
     "chrode": "./cli.js",
-    "chrodemon": "./cli-watch.js"
+    "chrodemon": "./cli-watch.js",
+    "chrode-build": "./cli-build.js"
   },
   "author": "Gregor <gregor.mitscha-baude@gmx.at>",
   "homepage": "https://github.com/mitschabaude/chrode",
