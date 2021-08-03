@@ -22,8 +22,8 @@ We also add some custom `esbuild` plugins to make it easy to run performance-ori
 ## CLI
 
 ```sh
-chrode script.js
-chrodemon script.js # same as `chrode script.js --watch`
+npx chrode script.js
+npx chrodemon script.js # same as `npx chrode script.js --watch`
 ```
 
 ### Options
@@ -41,7 +41,7 @@ chrodemon script.js # same as `chrode script.js --watch`
 If you only want the bundle produced by Chrode without running it, you can use the `chrode-build` CLI:
 
 ```sh
-chrode-build script.js
+npx chrode-build script.js
 ```
 
 This will pipe the build output to the command-line. Note that this is just a far less powerful wrapper around `esbuild` with the added convenience of our ready-to-use setup and plugins. The bundle that is produced is an ES module without imports and exports, suitable for inclusion in a `<script type="module">`, or for executing with `deno` or even `node` if you avoid incompatible Browser APIs.
