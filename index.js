@@ -1,17 +1,22 @@
-const puppeteer = require('puppeteer');
-const esbuild = require('esbuild');
-const fs = require('fs');
-const path = require('path');
-const http = require('http');
-const nodeStatic = require('node-static');
-const chalk = require('chalk');
-const buildCommon = require('./build-common.js');
-const watPlugin = require('./esbuild-plugin-wat');
-const inlineWorkerPlugin = require('./esbuild-plugin-inline-worker');
+import puppeteer from 'puppeteer';
+import {readFile} from 'fs/promises';
+import {readFileSync} from 'fs';
+import path from 'path';
+// import {performance} from 'perf_hooks';
+import {createServer} from 'http';
+import {Server} from 'node-static';
+import chalk from 'chalk';
+import esbuild from 'esbuild';
+import watPlugin from 'esbuild-plugin-wat';
+import inlineWorkerPlugin from 'esbuild-plugin-inline-worker';
+import findCacheDir from 'find-cache-dir';
 
-const fileServer = new nodeStatic.Server('.');
+let {bold, red} = chalk;
 
-module.exports = {run, build};
+const fileServer = new Server('.');
+let cacheDir = findCacheDir({name: 'chrode', create: true});
+
+export {run, build};
 
 async function run(
   scriptPath,
@@ -23,16 +28,15 @@ async function run(
     watch = false,
   }
 ) {
+  // console.log('start running function after', performance.now());
   const port = 8100 + Math.floor(900 * Math.random());
 
   // build JS
-  if (!fs.existsSync('/tmp/esbuild'))
-    fs.mkdirSync('/tmp/esbuild', {recursive: true});
   let scriptNameParts = path.basename(scriptPath).split('.');
   scriptNameParts.pop();
   scriptNameParts.push('.js');
   let scriptName = scriptNameParts.join('');
-  let bundlePath = '/tmp/esbuild/' + scriptName;
+  let bundlePath = path.resolve(cacheDir, scriptName);
 
   await esbuild.build({
     bundle: true,
@@ -46,13 +50,13 @@ async function run(
           onRebuild(error) {
             if (error) console.error('build failed:', error);
             else {
-              scriptSource = fs.readFileSync(bundlePath, {encoding: 'utf-8'});
+              scriptSource = readFileSync(bundlePath, {encoding: 'utf-8'});
               console.clear();
               console.log(
                 '\n' +
-                  chalk.bold(`Reloading ${scriptName} in watch mode...`) +
+                  bold(`Reloading ${scriptName} in watch mode...`) +
                   '\n' +
-                  chalk.bold(`Press Ctrl-C to stop execution`) +
+                  bold(`Press Ctrl-C to stop execution`) +
                   '\n'
               );
               page.reload();
@@ -62,26 +66,24 @@ async function run(
       : false,
   });
 
-  let scriptSource = fs.readFileSync(bundlePath, {encoding: 'utf-8'});
+  let scriptSource = await readFile(bundlePath, {encoding: 'utf-8'});
 
   // run dummy/file server
-  http
-    .createServer((req, res) => {
-      if (req.url === '/') {
-        res.statusCode = 200;
-        res.setHeader('content-type', 'text/html');
-        res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
-        res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
-        res.end(getHtml(scriptName));
-      } else if (req.url === `/${scriptName}`) {
-        res.statusCode = 200;
-        res.setHeader('content-type', 'text/javascript');
-        res.end(scriptSource);
-      } else {
-        fileServer.serve(req, res);
-      }
-    })
-    .listen(port);
+  createServer((req, res) => {
+    if (req.url === '/') {
+      res.statusCode = 200;
+      res.setHeader('content-type', 'text/html');
+      res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+      res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+      res.end(getHtml(scriptName));
+    } else if (req.url === `/${scriptName}`) {
+      res.statusCode = 200;
+      res.setHeader('content-type', 'text/javascript');
+      res.end(scriptSource);
+    } else {
+      fileServer.serve(req, res);
+    }
+  }).listen(port);
 
   // run puppeteer
   let browser = await puppeteer.launch({headless: !noHeadless});
@@ -93,8 +95,8 @@ async function run(
   if (!silent) {
     page.on('console', msg => console.log(msg.text()));
     page.on('pageerror', error => {
-      console.log(chalk.red.bold(error.message));
-      console.log(chalk.red(error.stack));
+      console.log(red.bold(error.message));
+      console.log(red(error.stack));
     });
     if (verbose) {
       page.on('response', response => {
@@ -105,7 +107,7 @@ async function run(
       console.log(request.failure().errorText, request.url);
     });
   }
-  console.log('\n' + chalk.bold(`Press Ctrl-C to stop execution`) + '\n');
+  console.log('\n' + bold(`Press Ctrl-C to stop execution`) + '\n');
   await page.goto(`http://localhost:${port}`);
 }
 
@@ -121,9 +123,22 @@ function getHtml(scriptName = 'index.js') {
 `;
 }
 
-function build(scriptPath, extraConfig) {
-  return buildCommon(scriptPath, {
+async function build(scriptPath, extraConfig) {
+  let scriptNameParts = path.basename(scriptPath).split('.');
+  scriptNameParts.pop();
+  scriptNameParts.push('js');
+  let scriptName = scriptNameParts.join('.');
+  let bundlePath = path.resolve(cacheDir, scriptName);
+
+  await esbuild.build({
+    bundle: true,
+    entryPoints: [scriptPath],
+    outfile: bundlePath,
+    target: 'esnext',
+    format: 'esm',
     plugins: [inlineWorkerPlugin({plugins: [watPlugin()]}), watPlugin()],
     ...extraConfig,
   });
+
+  return readFile(bundlePath, {encoding: 'utf-8'});
 }

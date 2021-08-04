@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-const commandLineArgs = require('command-line-args');
-const commandLineUsage = require('command-line-usage');
-const {build} = require('./index.js');
+import commandLineArgs from 'command-line-args';
+import commandLineUsage from 'command-line-usage';
+import {build} from './index.js';
 
 const cliOptions = [
   {
