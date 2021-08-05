@@ -1,12 +1,13 @@
 {
   "name": "chrode",
   "description": "Run JavaScript in Chrome, from the command line.",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "type": "module",
   "main": "index.js",
   "exports": {
     "import": "./index.js"
   },
+  "types": "index.d.ts",
   "bin": {
     "chrode": "./cli.js",
     "chrodemon": "./cli-watch.js",
