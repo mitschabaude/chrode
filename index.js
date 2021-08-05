@@ -26,7 +26,7 @@ async function run(
     noHeadless = false,
     incognito = false,
     watch = false,
-  }
+  } = {}
 ) {
   // console.log('start running function after', performance.now());
   const port = 8100 + Math.floor(900 * Math.random());
