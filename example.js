@@ -8,7 +8,7 @@ worker.onmessage = ({data}) => console.log(data);
 // top-level await actually works
 let res = await fetch('./package.json');
 let packageJson = await res.json();
-console.log('Your package name:', packageJson.name);
+console.warn('Your package name:', packageJson.name);
 
 // intentional error
 undefined.wtf;

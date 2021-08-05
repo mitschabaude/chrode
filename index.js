@@ -11,7 +11,7 @@ import watPlugin from 'esbuild-plugin-wat';
 import inlineWorkerPlugin from 'esbuild-plugin-inline-worker';
 import findCacheDir from 'find-cache-dir';
 
-let {bold, red} = chalk;
+let {bold, red, yellow} = chalk;
 
 const fileServer = new Server('.');
 let cacheDir = findCacheDir({name: 'chrode', create: true});
@@ -93,7 +93,23 @@ async function run(
   let page = await context.newPage();
 
   if (!silent) {
-    page.on('console', msg => console.log(msg.text()));
+    page.on('console', msg => {
+      // let str = msg
+      //   .args()
+      //   .map(arg => arg + '')
+      //   .join(' ');
+      let str = msg.text();
+      switch (msg.type()) {
+        case 'error':
+          console.log(red(str));
+          break;
+        case 'warning':
+          console.log(yellow(str));
+          break;
+        default:
+          console.log(str);
+      }
+    });
     page.on('pageerror', error => {
       console.log(red.bold(error.message));
       console.log(red(error.stack));
