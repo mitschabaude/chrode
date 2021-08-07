@@ -44,7 +44,10 @@ async function run(
     outfile: bundlePath,
     target: 'esnext',
     format: 'esm',
-    plugins: [inlineWorkerPlugin({plugins: [watPlugin()]}), watPlugin()],
+    plugins: [
+      inlineWorkerPlugin({plugins: [watPlugin({loader: 'base64'})]}),
+      watPlugin({loader: 'base64'}),
+    ],
     watch: watch
       ? {
           onRebuild(error) {
