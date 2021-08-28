@@ -321,6 +321,11 @@ enquirer@^2.3.5:
   dependencies:
     ansi-colors "^4.1.1"
 
+es-module-lexer@0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/es-module-lexer/-/es-module-lexer-0.4.1.tgz#dda8c6a14d8f340a24e34331e0fab0cb50438e0e"
+  integrity sha512-ooYciCUtfw6/d2w56UVeqHPcoCFAiJdz5XOkYpv/Txl1HMUozpXjz/2RIQgqwKdXNDPSF1W7mJCFse3G+HDyAA==
+
 esbuild-plugin-inline-worker@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/esbuild-plugin-inline-worker/-/esbuild-plugin-inline-worker-0.1.0.tgz#8e822d5656436acd90eed943062ca7ebd24f82c3"
@@ -329,13 +334,14 @@ esbuild-plugin-inline-worker@^0.1.0:
     esbuild latest
     find-cache-dir "^3.3.1"
 
-esbuild-plugin-wat@^0.1.5:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/esbuild-plugin-wat/-/esbuild-plugin-wat-0.1.5.tgz#1b8b5e5362beecbf92dc647c5da228824ea04efe"
-  integrity sha512-AFRZXa+qEsZHH1VzMRpXd1N4mBquiltRyNkk0Yli/H7fa6EnPP5HNoc8YGtitm40kLxulwm4M64EFrS8ViPiiQ==
+esbuild-plugin-wat@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/esbuild-plugin-wat/-/esbuild-plugin-wat-0.2.1.tgz#28e9da790530d47ba6edddd1dbb5d3c7b759b555"
+  integrity sha512-pwZcFAEM9C9gkUL/vvN5zYonU+2eoUoqS3CmT1+d/1F/TdlrnW3NHCs7GcIKYahAB0CxqjlitpI7QYIWY3KjNA==
   dependencies:
     binaryen latest
     find-cache-dir "^3.3.1"
+    parse-imports "^1.1.0"
     wabt latest
 
 esbuild@^0.12.9:
@@ -855,6 +861,14 @@ parent-module@^1.0.0:
   dependencies:
     callsites "^3.0.0"
 
+parse-imports@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/parse-imports/-/parse-imports-1.1.0.tgz#39a694f293537342eb556d2e5936a2e9893289bb"
+  integrity sha512-ov3Rc9e3wX9+BLR7nFx08+ThdLJfzi8ZXQrqZXfmuxdL+JCCN24m2uuBFBoaa/yyiZ9s8HjcHGDKSXJbKAyDQA==
+  dependencies:
+    es-module-lexer "0.4.1"
+    slashes "2.0.2"
+
 path-exists@^4.0.0:
   version "4.0.0"
   resolved "https://registry.npmjs.org/path-exists/-/path-exists-4.0.0.tgz"
@@ -997,6 +1011,11 @@ shebang-regex@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/shebang-regex/-/shebang-regex-3.0.0.tgz"
   integrity sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==
+
+slashes@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/slashes/-/slashes-2.0.2.tgz#c149dd3555bd236fdc3b43ec56e748e924425613"
+  integrity sha512-68p+QkFAQQRetIUzNXAdktNJr8AYLxJukjBegYQz8F7VATsBJG621UYtY/vS2j9jerxdJ1k6Tc25K4DXEw1d5w==
 
 slice-ansi@^4.0.0:
   version "4.0.0"

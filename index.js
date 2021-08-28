@@ -18,6 +18,13 @@ let cacheDir = findCacheDir({name: 'chrode', create: true});
 
 export {run, build};
 
+let plugins = [
+  inlineWorkerPlugin({
+    plugins: [watPlugin({loader: 'base64', bundle: true, wrap: true})],
+  }),
+  watPlugin({loader: 'base64', bundle: true, wrap: true}),
+];
+
 async function run(
   scriptPath,
   {
@@ -44,10 +51,7 @@ async function run(
     outfile: bundlePath,
     target: 'esnext',
     format: 'esm',
-    plugins: [
-      inlineWorkerPlugin({plugins: [watPlugin({loader: 'base64'})]}),
-      watPlugin({loader: 'base64'}),
-    ],
+    plugins,
     watch: watch
       ? {
           onRebuild(error) {
@@ -155,7 +159,7 @@ async function build(scriptPath, extraConfig) {
     outfile: bundlePath,
     target: 'esnext',
     format: 'esm',
-    plugins: [inlineWorkerPlugin({plugins: [watPlugin()]}), watPlugin()],
+    plugins,
     ...extraConfig,
   });
 
