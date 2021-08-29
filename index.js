@@ -20,9 +20,9 @@ export {run, build};
 
 let plugins = [
   inlineWorkerPlugin({
-    plugins: [watPlugin({loader: 'base64', bundle: true, wrap: true})],
+    plugins: [watPlugin({bundle: true, wrap: true})],
   }),
-  watPlugin({loader: 'base64', bundle: true, wrap: true}),
+  watPlugin({bundle: true, wrap: true}),
 ];
 
 async function run(
