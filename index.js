@@ -18,13 +18,6 @@ let cacheDir = findCacheDir({name: 'chrode', create: true});
 
 export {run, build};
 
-let plugins = [
-  inlineWorkerPlugin({
-    plugins: [watPlugin({bundle: true, wrap: true})],
-  }),
-  watPlugin({bundle: true, wrap: true}),
-];
-
 async function run(
   scriptPath,
   {
@@ -33,6 +26,8 @@ async function run(
     noHeadless = false,
     incognito = false,
     watch = false,
+    wasmWrap = false,
+    noWasmBundle = false,
   } = {}
 ) {
   // console.log('start running function after', performance.now());
@@ -44,6 +39,13 @@ async function run(
   scriptNameParts.push('.js');
   let scriptName = scriptNameParts.join('');
   let bundlePath = path.resolve(cacheDir, scriptName);
+
+  let plugins = [
+    inlineWorkerPlugin({
+      plugins: [watPlugin({bundle: !noWasmBundle, wrap: wasmWrap})],
+    }),
+    watPlugin({bundle: !noWasmBundle, wrap: wasmWrap}),
+  ];
 
   await esbuild.build({
     bundle: true,
@@ -152,6 +154,13 @@ async function build(scriptPath, extraConfig) {
   scriptNameParts.push('js');
   let scriptName = scriptNameParts.join('.');
   let bundlePath = path.resolve(cacheDir, scriptName);
+
+  let plugins = [
+    inlineWorkerPlugin({
+      plugins: [watPlugin({bundle: true, wrap: false})],
+    }),
+    watPlugin({bundle: true, wrap: false}),
+  ];
 
   await esbuild.build({
     bundle: true,
