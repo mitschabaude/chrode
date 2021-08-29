@@ -71,6 +71,8 @@ let script = await build('./script.js', {minify: true});
 
 ## WebAssembly
 
+**THIS SECTION IS CURRENTLY WRONG**
+
 You can simply import `.wasm` and `.wat` files directly. Both will resolve with a string which holds the base64-encoded WebAssembly bytecode. `.wat` is converted to `.wasm` behind the scenes.
 
 ```js
