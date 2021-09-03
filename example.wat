@@ -1,6 +1,6 @@
 (module
+  (import "window" "console.log" (func $log (param i32)))
   (import "./node_modules/esbuild-plugin-wat/lib/return.wat" "return_int" (func $return_int (param i32) (result i32)))
-
   (export "sum" (func $sum))
   
   (func $sum

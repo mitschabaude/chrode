@@ -44,6 +44,18 @@ const cliOptions = [
     defaultValue: false,
     description: 'Open the Chrome browser UI that runs your scripts.',
   },
+  {
+    name: 'wasm-wrap',
+    type: Boolean,
+    defaultValue: false,
+    description: 'Wrap Wasm imports.',
+  },
+  {
+    name: 'no-wasm-bundle',
+    type: Boolean,
+    defaultValue: false,
+    description: "Don't bundle Wasm.",
+  },
 ];
 
 let {
@@ -53,6 +65,8 @@ let {
   silent,
   verbose,
   'no-headless': noHeadless,
+  'wasm-wrap': wasmWrap,
+  'no-wasm-bundle': noWasmBundle,
 } = commandLineArgs(cliOptions);
 if (help || input === undefined) {
   console.log(
@@ -74,4 +88,12 @@ if (help || input === undefined) {
   process.exit(1);
 }
 
-run(input, {incognito, watch: true, silent, verbose, noHeadless});
+run(input, {
+  incognito,
+  watch: true,
+  silent,
+  verbose,
+  noHeadless,
+  wasmWrap,
+  noWasmBundle,
+});
