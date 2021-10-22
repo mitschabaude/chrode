@@ -10,6 +10,7 @@ import esbuild from 'esbuild';
 import watPlugin from 'esbuild-plugin-wat';
 import inlineWorkerPlugin from 'esbuild-plugin-inline-worker';
 import findCacheDir from 'find-cache-dir';
+import subpathImportPlugin from './esbuild-plugin-subpath-imports.js';
 
 let {bold, red, yellow} = chalk;
 
@@ -27,7 +28,7 @@ async function run(
     incognito = false,
     watch = false,
     wasmWrap = false,
-    noWasmBundle = false,
+    wasmBundle = false,
   } = {}
 ) {
   // console.log('start running function after', performance.now());
@@ -41,10 +42,11 @@ async function run(
   let bundlePath = path.resolve(cacheDir, scriptName);
 
   let plugins = [
+    subpathImportPlugin,
     inlineWorkerPlugin({
-      plugins: [watPlugin({bundle: !noWasmBundle, wrap: wasmWrap})],
+      plugins: [watPlugin({bundle: wasmBundle, wrap: wasmWrap})],
     }),
-    watPlugin({bundle: !noWasmBundle, wrap: wasmWrap}),
+    watPlugin({bundle: wasmBundle, wrap: wasmWrap}),
   ];
 
   await esbuild.build({
@@ -156,10 +158,11 @@ async function build(scriptPath, extraConfig) {
   let bundlePath = path.resolve(cacheDir, scriptName);
 
   let plugins = [
+    subpathImportPlugin,
     inlineWorkerPlugin({
-      plugins: [watPlugin({bundle: true, wrap: false})],
+      plugins: [watPlugin({bundle: false, wrap: false})],
     }),
-    watPlugin({bundle: true, wrap: false}),
+    watPlugin({bundle: false, wrap: false}),
   ];
 
   await esbuild.build({

@@ -44,18 +44,18 @@ const cliOptions = [
     defaultValue: false,
     description: 'Open the Chrome browser UI that runs your scripts.',
   },
-  {
-    name: 'wasm-wrap',
-    type: Boolean,
-    defaultValue: false,
-    description: 'Wrap Wasm imports.',
-  },
-  {
-    name: 'no-wasm-bundle',
-    type: Boolean,
-    defaultValue: false,
-    description: "Don't bundle Wasm.",
-  },
+  // {
+  //   name: 'wasm-wrap',
+  //   type: Boolean,
+  //   defaultValue: false,
+  //   description: 'Wrap Wasm imports.',
+  // },
+  // {
+  //   name: 'wasm-bundle',
+  //   type: Boolean,
+  //   defaultValue: false,
+  //   description: 'Bundle Wasm.',
+  // },
 ];
 
 let {
@@ -66,7 +66,7 @@ let {
   verbose,
   'no-headless': noHeadless,
   'wasm-wrap': wasmWrap,
-  'no-wasm-bundle': noWasmBundle,
+  'wasm-bundle': wasmBundle,
 } = commandLineArgs(cliOptions);
 if (help || input === undefined) {
   console.log(
@@ -95,5 +95,5 @@ run(input, {
   verbose,
   noHeadless,
   wasmWrap,
-  noWasmBundle,
+  wasmBundle,
 });

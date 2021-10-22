@@ -13,9 +13,9 @@ npx chrode script.js # run your script
 
 Chrode uses `esbuild` to bundle your code before executing it in headless Chrome with `puppeteer`. Some benefits:
 
-* Resolving ESM / require imports from `node_modules` just works
-* Automatically handles TypeScript and JSX
-* Can be used in re-executing watch mode like `nodemon`
+- Resolving ESM / require imports from `node_modules` just works
+- Automatically handles TypeScript and JSX
+- Can be used in re-executing watch mode like `nodemon`
 
 We also add some custom `esbuild` plugins to make it easy to run performance-oriented scripts which use [WebAssembly](#webassembly) and [Web Workers](#web-workers).
 
@@ -71,16 +71,10 @@ let script = await build('./script.js', {minify: true});
 
 ## WebAssembly
 
-**THIS SECTION IS CURRENTLY WRONG**
-
-You can simply import `.wasm` and `.wat` files directly. Both will resolve with a string which holds the base64-encoded WebAssembly bytecode. `.wat` is converted to `.wasm` behind the scenes.
+You can simply import `.wasm` and `.wat` files directly. Both will resolve with a `Uint8Array` which holds the WebAssembly bytecode. `.wat` is converted to `.wasm` behind the scenes.
 
 ```js
-import wasmBase64 from './example.wasm';
-
-// base64-decode
-let wasmStr = atob(wasmBase64);
-let wasmBytes = new Uint8Array([...wasmStr].map((_, i) => wasmStr.charCodeAt(i)));
+import wasmBytes from './example.wasm';
 
 // instantiate
 let wasmInstance = await WebAssembly.instantiate(wasmBytes);
@@ -104,13 +98,12 @@ worker.onmessage = ({data}) => console.log(data);
 
 When `script.js` is run with Chrode, this prints `"hello from worker!"`.
 
-
 ## Filesystem access
 
 Your scripts can access files on your hard-drive via `fetch`. The path is resolved relative to the folder where Chrode is run. Example:
 
 ```js
-let res = await fetch('./package.json')
+let res = await fetch('./package.json');
 let packageJson = await res.json();
 console.log(packageJson.name);
 ```
