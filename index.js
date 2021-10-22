@@ -19,6 +19,8 @@ let cacheDir = findCacheDir({name: 'chrode', create: true});
 
 export {run, build};
 
+let nextPort = 8100;
+
 async function run(
   scriptPath,
   {
@@ -32,7 +34,7 @@ async function run(
   } = {}
 ) {
   // console.log('start running function after', performance.now());
-  const port = 8100 + Math.floor(900 * Math.random());
+  const port = nextPort++;
 
   // build JS
   let scriptNameParts = path.basename(scriptPath).split('.');
