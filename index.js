@@ -99,7 +99,10 @@ async function run(
   }).listen(port);
 
   // run puppeteer
-  let browser = await puppeteer.launch({headless: !noHeadless});
+  let browser = await puppeteer.launch({
+    headless: !noHeadless,
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  });
   let context = incognito
     ? await browser.createIncognitoBrowserContext()
     : await browser.defaultBrowserContext();
