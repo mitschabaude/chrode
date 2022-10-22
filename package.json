@@ -1,7 +1,7 @@
 {
   "name": "chrode",
   "description": "Run JavaScript in Chrome, from the command line.",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "type": "module",
   "main": "index.js",
   "exports": {
