@@ -10,8 +10,6 @@ declare function run(
     noHeadless: boolean;
     incognito: boolean;
     watch: boolean;
-    wasmWrap: boolean;
-    noWasmBundle: boolean;
   }
 ): Promise<void>;
 

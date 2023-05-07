@@ -51,6 +51,9 @@ async function run(
     watPlugin({bundle: wasmBundle, wrap: wasmWrap}),
   ];
 
+  // FIXME
+  if (watch) throw Error('watch mode not supported currently');
+
   await esbuild.build({
     bundle: true,
     entryPoints: [scriptPath],
@@ -58,25 +61,25 @@ async function run(
     target: 'esnext',
     format: 'esm',
     plugins,
-    watch: watch
-      ? {
-          onRebuild(error) {
-            if (error) console.error('build failed:', error);
-            else {
-              scriptSource = readFileSync(bundlePath, {encoding: 'utf-8'});
-              console.clear();
-              console.log(
-                '\n' +
-                  bold(`Reloading ${scriptName} in watch mode...`) +
-                  '\n' +
-                  bold(`Press Ctrl-C to stop execution`) +
-                  '\n'
-              );
-              page.reload();
-            }
-          },
-        }
-      : false,
+    // watch: watch
+    //   ? {
+    //       onRebuild(error) {
+    //         if (error) console.error('build failed:', error);
+    //         else {
+    //           scriptSource = readFileSync(bundlePath, {encoding: 'utf-8'});
+    //           console.clear();
+    //           console.log(
+    //             '\n' +
+    //               bold(`Reloading ${scriptName} in watch mode...`) +
+    //               '\n' +
+    //               bold(`Press Ctrl-C to stop execution`) +
+    //               '\n'
+    //           );
+    //           page.reload();
+    //         }
+    //       },
+    //     }
+    //   : false,
   });
 
   let scriptSource = await readFile(bundlePath, {encoding: 'utf-8'});
@@ -100,7 +103,7 @@ async function run(
 
   // run puppeteer
   let browser = await puppeteer.launch({
-    headless: !noHeadless,
+    headless: !noHeadless ? 'new' : false,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
   let context = incognito
